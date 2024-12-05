@@ -1,5 +1,11 @@
 import { User, LogOut } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const UserToggle = () => {
@@ -7,7 +13,9 @@ export const UserToggle = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarFallback className="font-bold shadow-md bg-gradient-to-r from-green-400 to-blue-500 text-white">X</AvatarFallback>
+          <AvatarFallback className="font-bold shadow-md bg-gradient-to-r from-green-400 to-blue-500 text-white">
+            X
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

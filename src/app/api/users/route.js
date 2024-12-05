@@ -12,9 +12,21 @@ export const GET = async () => {
 export const POST = async (req) => {
   const { lastname, firstname, email, imageUrl } = await req.json();
 
-  if (!lastname) return NextResponse.json({ message: "lastname хоосон байж болохгүй" }, { status: 400 });
-  if (!firstname) return NextResponse.json({ message: "firstname хоосон байж болохгүй" }, { status: 400 });
-  if (!email) return NextResponse.json({ message: "email хоосон байж болохгүй" }, { status: 400 });
+  if (!lastname)
+    return NextResponse.json(
+      { message: "lastname хоосон байж болохгүй" },
+      { status: 400 }
+    );
+  if (!firstname)
+    return NextResponse.json(
+      { message: "firstname хоосон байж болохгүй" },
+      { status: 400 }
+    );
+  if (!email)
+    return NextResponse.json(
+      { message: "email хоосон байж болохгүй" },
+      { status: 400 }
+    );
 
   const newUser = { id: nanoid(), lastname, firstname, email, imageUrl };
 
