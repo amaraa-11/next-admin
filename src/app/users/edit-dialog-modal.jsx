@@ -9,17 +9,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const UserCreateDialog = ({ open, onClose, item }) => {
-  console.log("ajillaj bna");
+export const EditDialog = ({ open, onClose, item }) => {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
-
-  const addUser = async () => {
-    await fetch("/api/users", {
-      method: "POST",
+  const saveUser = async () => {
+    await fetch("/api/users/" + item.id, {
+      method: "PUT",
       body: JSON.stringify({
         email: email,
         firstname: firstname,
@@ -30,12 +28,16 @@ export const UserCreateDialog = ({ open, onClose, item }) => {
 
     onClose(false);
   };
-
+  useEffect(() => {
+    setFirstName(item?.firstname);
+    setLastName(item?.lastname);
+    setEmail(item?.email);
+  }, [item]);
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create user</DialogTitle>
+          <DialogTitle>Edit User</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
@@ -80,7 +82,7 @@ export const UserCreateDialog = ({ open, onClose, item }) => {
           >
             Cancel
           </Button>
-          <Button type="submit" onClick={addUser}>
+          <Button type="submit" onClick={saveUser}>
             Save
           </Button>
         </DialogFooter>

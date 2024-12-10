@@ -22,13 +22,27 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MoreHorizontal, Settings } from "lucide-react";
-import { Modal } from "./edit-modal";
+import { useState } from "react";
+import { EditDialog } from "./edit-dialog-modal";
+
 export function UsersTable(props) {
   const { data } = props;
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
+  const [search, setSearch] = useState("");
+  const filteredData = data?.filter((el) => {
+    return el.firstname.toLowerCase().includes(search.toLowerCase());
+  });
+  console.log(data, filteredData);
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input placeholder="Нэрээр хайх..." className="max-w-sm" />
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Нэрээр хайх..."
+          className="max-w-sm"
+        />
       </div>
       <div className="border rounded-md">
         <Table>
@@ -45,7 +59,7 @@ export function UsersTable(props) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.map((item, index) => (
+            {filteredData?.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableHead>
@@ -76,10 +90,9 @@ export function UsersTable(props) {
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
-                        onClick={async () => {
-                          await fetch(`api/users/${item.id}`, {
-                            method: "PUT",
-                          });
+                        onClick={() => {
+                          setSelectedItem(item);
+                          setEditModalOpen(true);
                         }}
                       >
                         Edit
@@ -99,6 +112,11 @@ export function UsersTable(props) {
               </TableRow>
             ))}
           </TableBody>
+          <EditDialog
+            open={editModalOpen}
+            onClose={setEditModalOpen}
+            item={selectedItem}
+          />
         </Table>
       </div>
     </div>
