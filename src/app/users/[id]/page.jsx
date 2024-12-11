@@ -1,19 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
-
-export default function Page(params) {
+import { useParams } from "next/navigation";
+export default function Page() {
+  const params = useParams();
   const [data, setData] = useState();
   useEffect(() => {
-    fetch("/api/users/" + params?.id).then((res) =>
-      res
-        .json()
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
+    fetch(`/api/users/${params.id}`).then((res) =>
+      res.json().then((data) => {
+        setData(data.data);
+      })
     );
-  }, []);
-  return <h2>Hi,Amaraa</h2>;
+  }, [params?.id]);
+  console.log(data);
+  return (
+    <div>
+      <p>Firstname : {data?.firstname}</p>
+      <p>Lastname : {data?.lastname}</p>
+      <p>Email: {data?.email}</p>
+    </div>
+  );
 }
